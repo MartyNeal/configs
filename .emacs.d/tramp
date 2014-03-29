@@ -1,0 +1,8 @@
+;; -*- emacs-lisp -*-
+;; Tramp connection history.  Don't change this file.
+;; You can delete it, forcing Tramp to reapply the checks.
+
+((["scpc" nil "bsops01" nil]
+  nil)
+ (["scpc" nil "bsops01.staging.dmz" nil]
+  nil))
