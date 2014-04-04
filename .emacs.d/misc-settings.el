@@ -29,6 +29,7 @@
 (global-font-lock-mode 1)
 (global-hi-lock-mode 1)
 (show-paren-mode 1)
+(set-fringe-mode 0)
 (menu-bar-mode 0)
 (if (functionp 'tool-bar-mode) (tool-bar-mode 0))
 
@@ -52,3 +53,9 @@
  '(speedbar-tag-hierarchy-method nil)
  '(speedbar-use-imenu-flag nil))
 (custom-set-faces)
+
+;(set-frame-font "Consolas-14" nil t)
+;(set-frame-font "Consolas-12" nil t)
+(set-frame-font "monofur-15" nil t)
+;(set-frame-font "monofur-14" nil t)
+;(set-frame-font "monofur-12" nil t)

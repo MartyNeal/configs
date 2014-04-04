@@ -10,3 +10,4 @@
 (load "~/.emacs.d/misc-functions.el")
 (load "~/.emacs.d/keybindings.el")
 (load "~/.emacs.d/languages.el")
+(load-theme 'tango t)
