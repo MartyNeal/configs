@@ -29,8 +29,8 @@
 (global-font-lock-mode 1)
 (global-hi-lock-mode 1)
 (show-paren-mode 1)
-(set-fringe-mode 0)
 (menu-bar-mode 0)
+(if (functionp 'set-fringe-mode) (set-fringe-mode 0))
 (if (functionp 'tool-bar-mode) (tool-bar-mode 0))
 
 (add-hook 'comint-output-filter-functions 'comint-watch-for-password-prompt)

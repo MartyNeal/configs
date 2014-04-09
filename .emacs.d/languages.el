@@ -1,3 +1,8 @@
+(load "~/.emacs.d/c.el")
+(load "~/.emacs.d/racket.el")
+(load "~/.emacs.d/ruby.el")
+(load "~/.emacs.d/csharp.el")
+
 (setq
   c-mode-hook '(lambda () (font-lock-mode 1) (font-lock-add-keywords nil '(("\\<\\(\\sw+\\) ?(" 1 font-lock-function-name-face)) t))
   c++-mode-hook '(lambda () (font-lock-mode 1) (font-lock-add-keywords nil '(("\\<\\(\\sw+\\) ?(" 1 font-lock-function-name-face)) t))
@@ -20,7 +25,8 @@
  (cons '("\\.pm$" . perl-mode)
  (cons '("\\.scm$" . scheme-mode)
  (cons '("\\.rkt$" . scheme-mode)
- (cons '("\\.txt$" . text-mode) auto-mode-alist))))))))))))
+ (cons '("\\.cs$" . csharp-mode)
+ (cons '("\\.txt$" . text-mode) auto-mode-alist)))))))))))))
 
 (org-babel-do-load-languages
  'org-babel-load-languages
@@ -36,7 +42,3 @@
          (org . t)
          (plantuml . t)
          (latex . t)))
-
-(load "~/.emacs.d/c.el")
-(load "~/.emacs.d/racket.el")
-(load "~/.emacs.d/ruby.el")
