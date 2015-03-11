@@ -64,3 +64,7 @@
     (setq ediff-split-window-function 'split-window-horizontally)
     (ediff-buffers cur-buf (current-buffer))))
 
+(defun json-format ()
+  (interactive)
+  (save-excursion
+    (shell-command-on-region (mark) (point) "jq ." (buffer-name) t)))

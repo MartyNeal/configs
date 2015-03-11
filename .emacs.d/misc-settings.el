@@ -10,6 +10,7 @@
 (set-selection-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (setq default-fill-column 80)
+(set-default 'truncate-lines t)
 (setq hscroll-margin 1)
 (setq indent-tabs-mode nil)
 (setq inhibit-splash-screen t)
@@ -23,6 +24,7 @@
 (setq scroll-preserve-screen-position t)
 (setq tab-width 4)
 (setq visible-bell t)
+
 
 (column-number-mode 1)
 (display-time-mode 1)
@@ -53,6 +55,12 @@
  '(speedbar-tag-hierarchy-method nil)
  '(speedbar-use-imenu-flag nil))
 (custom-set-faces)
+
+(defun proced-settings () 
+  (setq proced-auto-update-interval 1)
+  (proced-toggle-auto-update 1))
+
+(add-hook 'proced-mode-hook 'proced-settings)
 
 ;(set-frame-font "Consolas-14" nil t)
 ;(set-frame-font "Consolas-12" nil t)

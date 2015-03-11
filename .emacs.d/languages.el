@@ -1,7 +1,8 @@
-(load "~/.emacs.d/c.el")
-(load "~/.emacs.d/racket.el")
-(load "~/.emacs.d/ruby.el")
-(load "~/.emacs.d/csharp.el")
+;(load "~/.emacs.d/c.el")
+;(load "~/.emacs.d/racket.el")
+;(load "~/.emacs.d/ruby.el")
+;(load "~/.emacs.d/csharp.el")
+;(load "~/.emacs.d/groovy.el")
 
 (setq
   c-mode-hook '(lambda () (font-lock-mode 1) (font-lock-add-keywords nil '(("\\<\\(\\sw+\\) ?(" 1 font-lock-function-name-face)) t))
@@ -12,7 +13,9 @@
   rmail-mode-hook '(lambda () (font-lock-mode 1))
   compilation-mode-hook '(lambda () (font-lock-mode 1))
   dired-load-hook '(lambda () (load "dired-x") (define-key dired-mode-map "&" 'dired-do-shell-command-in-background))
-  lilypond-mode-hook '(lambda () (font-lock-mode 1)))
+  lilypond-mode-hook '(lambda () (font-lock-mode 1))
+  groovy-mode-hook '(lambda () (font-lock-mode 1))
+  sh-mode-hook '(lambda () (sh-electric-here-document-mode -1)))
 
 (setq auto-mode-alist 
  (cons '("\\.c$" . c-mode)
@@ -26,19 +29,21 @@
  (cons '("\\.scm$" . scheme-mode)
  (cons '("\\.rkt$" . scheme-mode)
  (cons '("\\.cs$" . csharp-mode)
+; (cons '("\\.groovy$" . groovy-mode)
  (cons '("\\.txt$" . text-mode) auto-mode-alist)))))))))))))
 
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((emacs-lisp . t)
-         (dot . t)
-         (ditaa . t)
-         (R . t)
-         (python . t)
-         (ruby . t)
-         (clojure . t)
-         (sh . t)
-         (ledger . t)
-         (org . t)
-         (plantuml . t)
-         (latex . t)))
+ '(
+;   (emacs-lisp . t)
+;   (dot . t)
+;   (ditaa . t)
+;   (R . t)
+;   (python . t)
+;   (ruby . t)
+;   (clojure . t)
+;   (sh . t)
+   (ledger . t)
+   (org . t)
+   (plantuml . t)
+   (latex . t)))

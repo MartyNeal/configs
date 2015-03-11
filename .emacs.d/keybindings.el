@@ -9,3 +9,4 @@
 (global-set-key (kbd "C-x w w") 'hilight-thing-at-point)
 (global-set-key (kbd "C-c C-f") 'compile)
 (global-set-key (kbd "C-c v") 'vc-compare-with-recent-version)
+(global-set-key (kbd "C-c j") 'json-format)
