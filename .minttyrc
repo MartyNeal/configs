@@ -1,8 +1,10 @@
 BoldAsFont=no
 FontHeight=12
-Transparency=off
+Transparency=low
 Columns=102
-Rows=74
+Rows=70
 PgUpDnScroll=no
 BackgroundColour=48,48,48
 OpaqueWhenFocused=yes
+FontSmoothing=full
+ConfirmExit=no
