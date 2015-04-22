@@ -10,7 +10,7 @@
 (load "~/.emacs.d/misc-functions.el")
 (load "~/.emacs.d/keybindings.el")
 (load "~/.emacs.d/languages.el")
-(load "~/.emacs.d/slack.el")
+;;(load "~/.emacs.d/slack.el")
 (load-theme 'tango t)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
