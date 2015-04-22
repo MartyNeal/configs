@@ -1,0 +1,87 @@
+[user]
+	name = Marty Neal
+	email = martin.neal@webtrends.com
+
+[core]
+	editor = emacs-nox
+	excludefile = c:/Users/nealm/.gitignore
+	filemode = false
+	pager = less -FXR
+	excludesfiles = /home/nealm/.gitignore
+	excludesfile = /home/nealm/Src/.gitignore
+
+[diff]
+	tool = bc3
+
+[difftool]
+	prompt = false
+
+[difftool "bc3"]
+	path = /cygdrive/c/Program Files (x86)/Beyond Compare 3/BComp.exe
+
+[merge]
+	tool = bc3
+
+[mergetool]
+	prompt = false
+	keepbackup = false
+
+[mergetool "bc3"]
+
+
+[alias]
+	lg = !git lg1 -n10
+	lg1 = log -n20 --graph --format=format:\"%C(bold blue)%h%C(reset) %C(bold yellow)%d%C(reset) %C(bold white)%an%C(reset) %C(bold green)%ar%C(reset) %C(white)%s%C(reset)\"
+	lg2 = log -n20 --format=%format:\"%C(bold blue)%h%C(reset) %C(bold cyan)%aD%C(reset) %C(bold green)%ar%C(reset)%C(bold yellow)%d%C(reset)%n%C(bold white)%an - %s%C(reset)\" --name-only
+	lg3 = log -n20 --format=format:\"%C(bold blue)%h%C(reset) %C(bold cyan)%aD%C(reset) %C(bold green)%ar%C(reset) %C(bold white)%an%C(reset)%n%C(bold yellow)%s%C(reset)\" --patch --color --color-words --ignore-space-at-eol --no-prefix
+	a = add
+	au = add -u
+	ap = add -p
+	b = branch
+	c = commit -m
+	ca = commit --amend -C HEAD
+	co = checkout
+	cp = cherry-pick
+	f = fetch
+	s = status -sb
+	d = diff
+	dt = difftool
+	dtc = difftool --cached
+	dc = diff --cached
+	st = stash
+	stp = stash pop
+	pr = pull-request
+	r = reset
+	rh = reset --hard
+	serve = !tracert pdxnealm01 | awk '/'`hostname`'/{ print "Now execute git clone " $4; exit }' & git daemon --verbose --export-all --base-path=.git --reuseaddr --strict-paths .git/
+	conflicts = diff --name-only --diff-filter=U
+        pum = pull upstream master
+	pom = push origin master
+	ru = remote update
+
+[push]
+	default = tracking
+	default = current
+	default = tracking
+	
+	
+
+[color]
+	status = auto
+
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
+
+[color "show"]
+	old = red
+	new = green
+
+[github]
+	host = https://gh.webtrends.corp
+	api = https://gh.webtrends.corp/api/v3
+[hub]
+	host = gh.webtrends.corp
+[remote "origin"]
+	fetch = +refs/pull/*/head:refs/remotes/origin/pr/*
