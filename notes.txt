@@ -1,0 +1,195 @@
+--to update password in prod
+remote desktop to pdxmgr05.netiq.dmz
+
+--set the db to single user mode
+ALTER DATABASE wtMaster SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+
+--restore
+USE master;
+RESTORE DATABASE wtMaster from
+DATABASE_SNAPSHOT = 'wtMasterXXXX';
+GO
+
+--then set it back
+ALTER DATABASE wtMaster SET MULTI_USER WITH ROLLBACK IMMEDIATE
+
+--to get STREAMING_PROD.xml and related do
+git stash
+git revert -n a2f57630
+git checkout
+git stash pop
+
+--to tail for the tracer dcsid across many storm boxes
+for i in 0{1..9} 1{0..6}; do ssh -f nealm@bstormsup"$i" "echo \$BASHPID > tail.pid; tail --pid \`cat .tail.pid\` -f "/var/log/storm/*.log" | grep _6m3f"; done
+
+for i in 0{1..9} 1{0..6}; do ssh -f nealm@bstormsup"$i" "kill \`cat .tail.pid\`"; done
+
+--to reference upstream branch in git
+<refname>@{upstream}, e.g. master@{upstream}, @{u}
+The suffix @{upstream} to a ref (short form <refname>@{u}) refers to the branch the ref is set to build on top of. A missing ref defaults to the current branch.
+
+--fix automation db when race condition causes key constraints to fail
+INSERT INTO TestActivityExecution ([TestSuiteExecutionID] ,[ActivityConfigurationID] ,[ParentTestActivityExecutionID] ,[ExecutionStateID] ,[HostID], [StartTime], [EndTime] ,[ExceptionInfo])
+VALUES (1,1,1,0,16,GETDATE(),GETDATE(),'')
+
+--unlock a user
+This query will need to be run against wtMaster on masterdb01.
+
+First find your userID either by querying the database or searching in the MC.
+
+Run this query against wtMaster, substituting your userID:
+update wt_User set UserStatusID = 1 where UserID = 169308
+
+Full user reset queries:
+update wt_User set UserStatusID = 1 where UserID = 169308
+update wt_User set Password = 'D9B8040E71A5D2240DD130F529DB7AA6D2AB' where UserID = 169308
+update wt_User set Email = 'adam.olsen@webtrends.com' where UserID = 169308
+
+--tagging our test suite
+            try
+            {
+                string status = TestContext.CurrentContext.Result.Status == TestStatus.Passed ? "a" :
+                    TestContext.CurrentContext.Result.Status == TestStatus.Failed ? "r" : "v";
+                var parameters = new Dictionary<string, string>
+                {
+                    { "wt.tx_e", status },
+                    { "wt.cg_n", string.Join(";", ((ArrayList)TestContext.CurrentContext.Test.Properties["_CATEGORIES"]).Cast<string>().Select(x => x.Replace(";", "%3B"))) }, // TODO: get parent categories too.
+                    { "dcsref", TestContext.CurrentContext.TestDirectory },
+                    { "dcssip", Environment.MachineName },
+                    { "dcsuri", TestContext.CurrentContext.Test.FullName.Replace(".", "/") }, // TODO: don't replace dots that are within quotes
+                    { "wt.dl", "0" },
+                    { "dcsaut", Environment.UserName },
+                    { "dcsext.tc.name", TestContext.CurrentContext.Test.Name },
+                    { "dcsext.tc.status", TestContext.CurrentContext.Result.Status.ToString() },
+                    { "dcsext.tc.pod", System.Text.RegularExpressions.Regex.Match(TestContext.CurrentContext.Test.FullName, "...").Value }
+                    //{ "wt.es", Environment.MachineName + "/" + TestContext.CurrentContext.Test.FullName.Replace(".", "/") },
+                    ////{ "wt.vt_id", } // This could come from an id given to a schedule in the testsuitedefinitions or something like that...
+                };
+                var scs = new EncodedEventWriter<WtHttpWebResponse>(new ScsEventWriter("http://bscs.pdx.webtrends.com/")); // TODO point this at prod when we get the kinks worked out
+                var e = new Event("dcs4rv6qa8bv0hoa1jvx9xbw4_7t7r", parameters, DateTime.Now, null, "NUnit"); // TODO: make a real dcsid when the time comes
+                scs.WriteEventAsync(e);
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine("Unable to write result to scs: " + e.ToLogString());
+            }
+
+--wtAutomation tables that are empty:
+  Assembly
+  Exception
+  Schedule
+  TestException
+  tmpTestSuiteStateDetailsByExecution
+
+
+TC grabs the latest nuget builds.  If things are failing in TC, but passing
+locally, make sure you have the most up to date packages.  Also, try rebuilding
+Webtrends Libraries.
+
+ANALYSIS_ERROR ASSEMBLY_LOAD_ERROR ASSEMBLY_REFERENCES_ERROR
+clean build sometimes works
+
+filter orcs by dcsid
+jq 'select(reduce .data_dcsid[] as $i (false; . or $i == "dcs123"))'
+
+@BeforeSuite - Don't set class vars
+@BeforeTest  - Don't set class vars
+@BeforeClass
+@BeforeGroup
+@BeforeMethod
+
+
+Usage: <main class> [options] The XML suite files to run
+  Options:
+    -configfailurepolicy               Configuration failure policy (skip or
+                                       continue)
+    -d                                 Output directory
+    -dataproviderthreadcount           Number of threads to use when running
+                                       data providers
+    -excludegroups                     Comma-separated list of group names to
+                                       exclude
+    -groups                            Comma-separated list of group names to be
+                                       run
+    -junit                             JUnit mode
+                                       Default: false
+    -listener                          List of .class files or list of class
+                                       names implementing ITestListener or
+                                       ISuiteListener
+    -methods                           Comma separated of test methods
+                                       Default: []
+    -methodselectors                   List of .class files or list of class
+                                       names implementing IMethodSelector
+    -mixed                             Mixed mode - autodetect the type of
+                                       current test and run it with appropriate runner
+                                       Default: false
+    -objectfactory                     List of .class files or list of class
+                                       names implementing ITestRunnerFactory
+    -parallel                          Parallel mode (methods, tests or classes)
+    -port                              The port
+    -reporter                          Extended configuration for custom report
+                                       listener
+    -suitename                         Default name of test suite, if not
+                                       specified in suite definition file or source code
+    -suitethreadpoolsize               Size of the thread pool to use to run
+                                       suites
+                                       Default: 1
+    -testclass                         The list of test classes
+    -testjar                           A jar file containing the tests
+    -testname                          Default name of test, if not specified in
+                                       suitedefinition file or source code
+    -testnames                         The list of test names to run
+    -testrunfactory, -testRunFactory   The factory used to create tests
+    -threadcount                       Number of threads to use when running
+                                       tests in parallel
+    -usedefaultlisteners               Whether to use the default listeners
+                                       Default: true
+    -log, -verbose                     Level of verbosity
+    -xmlpathinjar                      The full path to the xml file inside the
+                                       jar file (only valid if -testjar was
+                                       specified)
+                                       Default: testng.xml
+
+
+String
+  sequence of (any) characters
+  encoding
+  uppercase, lowercase
+  locale
+  
+Number
+  comparable (chart)
+  dapi returns numbers
+  summable
+
+@powershell -NoProfile -ExecutionPolicy unrestricted -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
+choco install cygwin
+choco install virtuawin
+choco install emacs
+choco install chef-client
+choco install google-chrome-x64
+choco install googledrive
+choco install autohotkey
+choco install skitch
+choco install 7zip
+choco install clink
+choco install intellijidea-community
+choco install jdk8
+choco install pidgin
+choco install fiddler
+choco install wireshark
+choco install racket
+choco install gotomeeting
+choco install sysinternals
+choco install virtualbox
+choco install dotnet4.5.1
+choco install linqpad
+choco install nunit
+choco install stylecop
+choco install fxcop
+choco install jq
+cmd -c 'setup-x86 -q -P ascii,bash,bash-completion,curl,dos2unix,emacs,git,git-completion,hostname,openssh,openssl,unzip,wget'
+curl -s get.gvmtool.net | bash
+gvm install groovy
+gvm install gradle
+
+
