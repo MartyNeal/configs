@@ -19,7 +19,6 @@ alias knife='/cygdrive/c/opscode/chef/embedded/bin/ruby C:/opscode/chef/bin/knif
 alias chef-client='/cygdrive/c/opscode/chef/embedded/bin/ruby C:/opscode/chef/bin/chef-client'
 alias chef-solo='/cygdrive/c/opscode/chef/embedded/bin/ruby C:/opscode/chef/bin/chef-solo'
 alias shef='/cygdrive/c/opscode/chef/embedded/bin/ruby C:/opscode/chef/bin/shef'
-
 alias dump='tee /dev/fd/2'
 alias ls='ls -h --color --file-type --time-style="+%Y-%m-%d %H:%M:%S"'
 alias desktop='cd /cygdrive/c/Users/nealm/Desktop/'
@@ -41,6 +40,9 @@ alias pati='cd ~/Src/ui-automation-lib'
 alias cygwingui='/cygdrive/c/Users/nealm/Downloads/setup-x86.exe'
 alias cygwin='/cygdrive/c/Users/nealm/Downloads/setup-x86.exe -q -P'
 alias r='gradle'
+alias ri='gradle idea'
+alias rb='gradle build'
+alias rj='gradle jar'
 alias clear='printf "\033c"'
 alias cls='printf "\033c"'
 alias t='tail -f -n1000'
@@ -52,6 +54,7 @@ alias k="knife"
 alias s="ssh"
 alias e="emacs-nox"
 alias ccat="pygmentize"
+
 alias deployAll='for m in $(harnessNodesInA); do echo $m;ssh -t $m "sudo deploy_build=true chef-client"; done'
 alias checkAll='for m in $(harnessNodesInA); do echo -n $m" "; curl -s $m":8080/plugins/$(curl -s $m":8080/plugins" | cut -d\" -f4)" | cut -d\" -f8; done'
 
