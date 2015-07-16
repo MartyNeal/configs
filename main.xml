@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cards>
+  <name></name>
+  <key>Collections/main</key>
+  <comment></comment>
+  <type></type>
+  <list>
+    <mcp>
+      <card>
+        <id>3359</id>
+        <name>Sandbar Crocodile</name>
+        <edition>Mirage</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:42:33 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>4726</id>
+        <name>Shimmering Wings</name>
+        <edition>Tempest</edition>
+      </card>
+      <count>2</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:42:57 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>3650</id>
+        <name>Shrieking Drake</name>
+        <edition>Visions</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:43:34 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>1224</id>
+        <name>Spell Blast</name>
+        <edition>Revised Edition</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:43:59 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>4728</id>
+        <name>Spell Blast</name>
+        <edition>Tempest</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:44:07 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>6524</id>
+        <name>Talas Air Ship</name>
+        <edition>Portal Second Age</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:44:21 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>6522</id>
+        <name>Talas Explorer</name>
+        <edition>Portal Second Age</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:44:32 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>3367</id>
+        <name>Teferi's Curse</name>
+        <edition>Mirage</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:44:50 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>3368</id>
+        <name>Teferi's Drake</name>
+        <edition>Mirage</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:44:54 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>3651</id>
+        <name>Teferi's Realm</name>
+        <edition>Visions</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:45:00 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>4499</id>
+        <name>Teferi's Veil</name>
+        <edition>Weatherlight</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:45:07 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>4732</id>
+        <name>Thalakos Dreamsower</name>
+        <edition>Tempest</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:45:45 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>4733</id>
+        <name>Thalakos Mistfolk</name>
+        <edition>Tempest</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:45:52 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>4734</id>
+        <name>Thalakos Seer</name>
+        <edition>Tempest</edition>
+      </card>
+      <count>2</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:45:59 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>4735</id>
+        <name>Thalakos Sentry</name>
+        <edition>Tempest</edition>
+      </card>
+      <count>2</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:46:08 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>5254</id>
+        <name>Theft of Dreams</name>
+        <edition>Exodus</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:46:27 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>6543</id>
+        <name>Theft of Dreams</name>
+        <edition>Portal Second Age</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:46:34 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>12369</id>
+        <name>Thornwind Faeries</name>
+        <edition>Urza's Legacy</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:47:01 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>2190</id>
+        <name>Thoughtlace</name>
+        <edition>Fourth Edition</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:47:34 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>2540</id>
+        <name>Thunder Wall</name>
+        <edition>Ice Age</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:48:09 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>16429</id>
+        <name>Tidal Surge</name>
+        <edition>Classic Sixth Edition</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:48:33 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>5256</id>
+        <name>Tidal Warrior</name>
+        <edition>Stronghold</edition>
+      </card>
+      <count>2</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:48:50 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>3653</id>
+        <name>Time and Tide</name>
+        <edition>Visions</edition>
+      </card>
+      <count>2</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:49:13 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>4736</id>
+        <name>Time Ebb</name>
+        <edition>Tempest</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:49:50 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>6532</id>
+        <name>Time Ebb</name>
+        <edition>Portal Second Age</edition>
+      </card>
+      <count>2</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:49:57 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>3950</id>
+        <name>Time Elemental</name>
+        <edition>Fifth Edition</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:50:24 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>2191</id>
+        <name>Time Elemental</name>
+        <edition>Fourth Edition</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:50:28 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>4503</id>
+        <name>Tolarian Serpent</name>
+        <edition>Weatherlight</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:51:31 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>22987</id>
+        <name>Traveler's Cloak</name>
+        <edition>Invasion</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:53:02 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>3951</id>
+        <name>Twiddle</name>
+        <edition>Fifth Edition</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:53:25 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>2192</id>
+        <name>Twiddle</name>
+        <edition>Fourth Edition</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:53:29 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>3654</id>
+        <name>Undo</name>
+        <edition>Visions</edition>
+      </card>
+      <count>2</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:54:10 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>2194</id>
+        <name>Unsummon</name>
+        <edition>Fourth Edition</edition>
+      </card>
+      <count>3</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:55:37 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>1229</id>
+        <name>Unsummon</name>
+        <edition>Revised Edition</edition>
+      </card>
+      <count>2</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:55:50 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>3954</id>
+        <name>Updraft</name>
+        <edition>Fifth Edition</edition>
+      </card>
+      <count>2</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:56:19 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>3655</id>
+        <name>Vanishing</name>
+        <edition>Visions</edition>
+      </card>
+      <count>2</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:56:38 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>5788</id>
+        <name>Veil of Birds</name>
+        <edition>Urza's Saga</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:56:54 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>12371</id>
+        <name>Vigilant Drake</name>
+        <edition>Urza's Legacy</edition>
+      </card>
+      <count>2</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:57:14 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>22976</id>
+        <name>Vodalian Serpent</name>
+        <edition>Invasion</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:57:31 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>3955</id>
+        <name>Vodalian Soldiers</name>
+        <edition>Fifth Edition</edition>
+      </card>
+      <count>2</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:57:54 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>2198</id>
+        <name>Water Elemental</name>
+        <edition>Fourth Edition</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:58:18 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>19557</id>
+        <name>Waterfront Bouncer</name>
+        <edition>Mercadian Masques</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:58:35 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>3657</id>
+        <name>Waterspout Djinn</name>
+        <edition>Visions</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:58:50 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>4743</id>
+        <name>Whispers of the Muse</name>
+        <edition>Tempest</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:59:18 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>4744</id>
+        <name>Wind Dancer</name>
+        <edition>Tempest</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 07:59:48 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>4745</id>
+        <name>Wind Drake</name>
+        <edition>Tempest</edition>
+      </card>
+      <count>5</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 08:00:36 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>3957</id>
+        <name>Wind Spirit</name>
+        <edition>Fifth Edition</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 08:00:54 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>4746</id>
+        <name>Winged Sliver</name>
+        <edition>Tempest</edition>
+      </card>
+      <count>2</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 08:01:20 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>8907</id>
+        <name>Wizard Mentor</name>
+        <edition>Urza's Saga</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 08:01:35 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>22982</id>
+        <name>Worldly Counsel</name>
+        <edition>Invasion</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 08:01:52 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>3958</id>
+        <name>Zephyr Falcon</name>
+        <edition>Fifth Edition</edition>
+      </card>
+      <count>2</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 08:02:22 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>2199</id>
+        <name>Zephyr Falcon</name>
+        <edition>Fourth Edition</edition>
+      </card>
+      <count>3</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 08:02:25 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>2548</id>
+        <name>Zuran Spellcaster</name>
+        <edition>Ice Age</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 08:02:42 PDT 2015</date>
+    </mcp>
+    <mcp>
+      <card>
+        <id>3959</id>
+        <name>Zur's Weirding</name>
+        <edition>Fifth Edition</edition>
+      </card>
+      <count>1</count>
+      <location>Collections/main</location>
+      <ownership>true</ownership>
+      <date>Mon Jul 13 08:02:57 PDT 2015</date>
+    </mcp>
+  </list>
+</cards>
