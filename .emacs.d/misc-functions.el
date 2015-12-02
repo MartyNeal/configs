@@ -1,3 +1,9 @@
+(defun chess-fics ()
+  "Sets the username and password on login"
+  (interactive)
+  (require 'passwords "~/.emacs.d/passwords.el.gpg")
+  (chess-ics "freechess.org" 5000 "cheeseheadtothe" fics-password))
+
 (defun hilight-thing-at-point ()
   (interactive)
   (highlight-regexp (thing-at-point 'symbol)))
@@ -20,41 +26,6 @@
       (insert (format "%4d %c\n" i i))))
   (beginning-of-buffer))
 
-(defun nuke-trailing-whitespace ()
-  "Nuke all trailing whitespace in the buffer."
-  (interactive)
-  (cond ((interactive-p)
-         (call-interactively 'whitespace-do-nuke-whitespace))
-        (t
-         (whitespace-do-nuke-whitespace)))
-  nil)
-
-(defun whitespace-do-nuke-whitespace ()
-  (interactive)
-  (let ((buffer-orig-read-only buffer-read-only)
-        (buffer-read-only nil))
-    (save-excursion
-      (save-restriction
-        (save-match-data
-          (widen)
-          (goto-char (point-min))
-          (cond
-           ((or (not buffer-orig-read-only)
-                (interactive-p))
-            (while (re-search-forward "[ \t]+$" (point-max) t)
-              (delete-region (match-beginning 0) (match-end 0)))
-            (goto-char (point-min))
-            (and (re-search-forward "\n\n+\\'" nil t)
-                 (delete-region (1+ (match-beginning 0)) (match-end 0))))
-           (t
-            (query-replace-regexp "[ \t]+$" "")
-            (goto-char (point-min))
-            (and (re-search-forward "\n\n+\\'" nil t)
-                 (save-match-data
-                   (y-or-n-p
-                    "Delete excess trailing newlines at end of buffer? "))
-                 (delete-region (1+ (match-beginning 0)) (match-end 0))))))))))
-
 (defun untabify-buffer () (untabify (point-min) (point-max)))
 
 (defun vc-compare-with-recent-version ()
@@ -68,3 +39,20 @@
   (interactive)
   (save-excursion
     (shell-command-on-region (mark) (point) "jq ." (buffer-name) t)))
+
+(advice-add 'chess :after
+	    (lambda (&rest r)
+	      (set-frame-size (selected-frame) 67 35)
+	      (scroll-bar-mode 0)))
+
+(defun toggle-frame-split ()
+  "If the frame is split vertically, split it horizontally or vice versa.
+Assumes that the frame is only split into two."
+  (interactive)
+  (unless (= (length (window-list)) 2) (error "Can only toggle a frame split in two"))
+  (let ((split-vertically-p (window-combined-p)))
+    (delete-window) ; closes current window
+    (if split-vertically-p
+        (split-window-horizontally)
+      (split-window-vertically)) ; gives us a split with the other window twice
+    (switch-to-buffer nil))) ; restore the original window in this part of the frame
