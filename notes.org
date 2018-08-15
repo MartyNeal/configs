@@ -1,0 +1,1190 @@
+#+STARTUP: inlineimages
+#+PROPERTY: engine postgresql
+#+PROPERTY: dbhost localhost
+#+PROPERTY: database webar_marty
+#+OPTIONS: ^:nil
+
+* notes - Personal
+** Chess
+*** emacs chess
+To copy a fen, M-w
+To copy a pgn, C-0 M-w
+To paste into skid, C-S-I, C-v, M-i, Esc
+** Pokemon
+** Biggest loser
+#+BEGIN_SRC R
+library(data.table)
+pdf("C:/Users/marty/weights.pdf") # Write data out as a pdf
+data <- fread("C:/Users/marty/weights.tsv")
+raw <- transpose(as.data.table(apply(data[,!1], MARGIN=1, function(x) unlist(x/data[1,!1]))))
+matplot(raw, type="l")
+title("Biggest Loser 2018")
+#+END_SRC
+
+#+RESULTS:
+
+** Choropleth Maps:
+https://codepen.io/plotly/pen/JYxveZ?editors=1010
+#+BEGIN_SRC js
+Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/2011_us_ag_exports.csv', (err, rows) => {
+    const unpack = (rows, key) => rows.map(r => r[key]);
+    const data = [{
+        colorbar: { title: 'Millions USD' },
+        type: 'choropleth',
+        locationmode: 'USA-states',
+        locations: unpack(rows, 'code'),
+        z: unpack(rows, 'beef'),
+        text: unpack(rows, 'state')
+    }];
+    const layout = {
+        title: '2011 US Agriculture Exports by State',
+        geo: { scope: 'usa' }
+    };
+    Plotly.newPlot(myDiv, data, layout);
+});
+#+END_SRC
+** Time at work
+#+BEGIN_SRC R
+library(purrr)
+library(googlesheets)
+ws <- gs_read(ss=gs_key("..."),ws="Sheet1")
+dts <- as.POSIXct(ws$DateTime, format="%B %d, %Y at %I:%M%p")
+dts <- head(dts,-(length(dts)%%2)) #trim to an even size
+times <- data.frame(
+  arrive = dts[c(TRUE,FALSE)], 
+   leave = dts[c(FALSE,TRUE)],
+   total.hours = dts[c(FALSE,TRUE)] - dts[c(TRUE,FALSE)])
+times
+#+END_SRC
+
+* notes - Webtrends
+** TestNG
+*** Annotation Order
+@BeforeSuite - Don't set class vars
+@BeforeTest  - Don't set class vars
+@BeforeClass
+@BeforeGroup
+@BeforeMethod
+TODO: add in parent child order and notes about when after's are run
+*** Usage
+Usage: <main class> [options] The XML suite files to run
+ Options:
+ -configfailurepolicy     Configuration failure policy (skip or continue)
+ -d                       Output directory
+ -dataproviderthreadcount Number of threads to use when running data providers
+ -excludegroups           Comma-separated list of group names to exclude
+ -groups                  Comma-separated list of group names to be run
+ -junit                   JUnit mode Default: false
+ -listener                List of .class files or list of class names implementing ITestListener or ISuiteListener
+ -methods                 Comma separated of test methods Default: []
+ -methodselectors         List of .class files or list of class names implementing IMethodSelector
+ -mixed                   Mixed mode - autodetect the type of current test and run it appropriately Default: false
+ -objectfactory           List of .class files or list of class names implementing ITestRunnerFactory
+ -parallel                Parallel mode (methods, tests or classes)
+ -port                    The port
+ -reporter                Extended configuration for custom report listener
+ -suitename               Default name of test suite, if not specified in suite definition file or source code
+ -suitethreadpoolsize     Size of the thread pool to use to run suites Default: 1
+ -testclass               The list of test classes
+ -testjar                 A jar file containing the tests
+ -testname                Default name of test, if not specified in suitedefinition file or source code
+ -testnames               The list of test names to run
+ -testrunfactory,         The factory used to create tests
+ -threadcount             Number of threads to use when running tests in parallel
+ -usedefaultlisteners     Whether to use the default listeners Default: true
+ -log, -verbose           Level of verbosity
+ -xmlpathinjar            Path to the xml file inside the jar (only valid if -testjar is used) Default: testng.xml
+
+** Packages installed on my machine
+     #+BEGIN_SRC sh
+     @powershell -NoProfile -ExecutionPolicy unrestricted -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
+     choco install google-chrome-x64
+     choco install emacs
+     choco install cygwin
+     cmd -c 'setup-x86 -q -P ascii,bash,bash-completion,curl,dos2unix,emacs,git,git-completion,hostname,openssh,openssl,unzip,wget'
+     choco install jdk8
+     choco install intellijidea-community
+     curl -s get.gvmtool.net | bash
+     gvm install groovy
+     gvm install gradle
+     choco install 7zip
+     choco install clink
+     choco install jq
+     choco install sysinternals
+     choco install racket
+     choco install gotomeeting
+     choco install virtualbox
+     choco install chef-client
+     choco install googledrive
+     choco install dotnet4.5.1
+     #+END_SRC
+
+** Org tricks
+*** Source code
+type ~TAB~ after the string ~<s~ to start a code block
+~js~ for json highlighing. see here for others [[http://orgmode.org/manual/Languages.html#Languages]]
+To edit code in its native mode, use ~C-c '~.
+#+BEGIN_SRC js
+  {
+    "key": [
+      "value",
+      null,
+      123,
+      true
+    ]
+  }
+#+END_SRC
+*** Symbols
+\lambda and other symbols are entered by typing \​lambda etc.  A full list can be found here [[elisp:(org-entities-help)][org-entities-help]]
+
+*** 11.2 Emphasis and monospace
+You can make words *bold*, /italic/, _underlined_, =verbatim= and ~code~, and, +strike-through+.
+
+To turn off fontification for marked up text, you can set
+org-fontify-emphasized-text to nil. To narrow down the list of
+available markup syntax, you can customize org-emphasis-alist. To
+fine-tune what characters are allowed before and after the markup
+characters, you can tweak org-emphasis-regexp-components. Beware that
+changing one of the above variables will not take effect until you
+reload Org, for which you may need to restart Emacs.
+
+*** journal mode using C-c C-j
+*** org-bullets-mode
+*** tables
+
+- M-left/right to move columns left/right
+- M-S-left/right to delete/insert columns
+*** restclient
+    #+BEGIN_SRC restclient
+    GET http://example.com
+    #+END_SRC
+
+*** groovy
+    #+Name: data
+    #+BEGIN_SRC groovy
+    [foo:5]
+    #+END_SRC
+
+    #+BEGIN_SRC groovy :noweb yes
+    <<data>>
+    #+END_SRC
+
+    #+RESULTS:
+    : [foo:5]
+
+*** sql
+  :PROPERTIES:
+  :engine:   postgresql
+  :dbhost:   localhost
+  :database: webar_marty
+  :exports:  both
+  :END:
+    #+BEGIN_SRC sql
+    SELECT 1;
+    #+END_SRC
+
+    #+RESULTS:
+
+*** dot
+    #+BEGIN_SRC dot :file foo.png
+    digraph g { hello -> world6 }
+    #+END_SRC
+
+*** plantuml
+    #+BEGIN_SRC plantuml :file foo.png
+    alice -> bob: hi
+    bob -> alice: hello
+    #+END_SRC
+
+*** redis
+    #+BEGIN_SRC redis
+flushall
+    #+END_SRC
+
+    #+RESULTS:
+    : OK
+
+** log4j
+Run/edit configurations under testng defaults
+ -Dlog4j.debug
+ -Dlog4j.configuration=file:C:/...
+
+  #+BEGIN_SRC xml
+
+    <logger name="com.blah.package">
+        <level value="DEBUG"/>
+    </logger>
+
+    <logger name="org.apache.http.wire">
+        <level value="DEBUG"/>
+    </logger>
+  #+END_SRC
+
+** emacs setup
+place in a .bat file in path and make a shortcut to it
+
+  #+BEGIN_SRC sh
+    tasklist /FI "IMAGENAME eq emacs-w32.exe" /NH | grep "emacs-w32.exe" >NUL
+    if "%ERRORLEVEL%"=="1" C:\cygwin64\bin\emacs-w32.exe --daemon
+    C:\cygwin64\bin\emacsclient-w32.exe -n -a "" -c
+  #+END_SRC
+
+** git
+*** fetch = +refs/pull/*/head:refs/remotes/pr/*
+*** git log --author 'Rundeck User' --invert-grep
+*** 
+** Regex
+Groovy regex example to get match from string or null if no match:
+#+BEGIN_SRC groovy
+('foo123bar' =~ 'foo([0-9]*)bar')*.getAt(1)[0]
+#+END_SRC
+
+Ensure there is a single trailing slash
+#+BEGIN_SRC groovy
+'http://foo.com/bar/'.replace
+#+END_SRC
+
+** Installing Certificates 
+*** Firefox
+application (hamburger) menu -> options -> Advanced -> Certificates -> View Certificates -> Import -> .p7b -> check all 3 checkboxes
+*** Chrome
+settings -> manage certificates -> authorities -> import -> .crt -> check all 3 checkboxes
+*** Java
+By default, the keystore is located in ~C:/Users/nealm/.keystore~.  
+#+BEGIN_SRC bash
+openssl pkcs7 -inform DER -outform PEM -in G2ChainCertPDX.p7b -print_certs > wt.pem
+keytool -importcert -file wt.pem
+#+END_SRC
+
+*** cURL
+#+BEGIN_SRC bash
+cd /etc/pki/ca-trust/extracted/pem
+chmod +w /etc/pki/ca-trust/extracted/pem
+cat your_certs >> tls-ca-bundle.pem
+chmod -w /etc/pki/ca-trust/extracted/pem
+#+END_SRC 
+
+** groovyclient idea invoker
+*** The script C:\cygwin64\bin\ideaGroovyClientInvokerr.bat
+
+#+BEGIN_SRC bat
+@ECHO OFF
+SET STARTLINE=%1
+SET STARTCHAR=%2
+SET ENDLINE=%3
+SET ENDCHAR=%4
+SET FILENAME=%5
+SET /A "DELTA = %ENDLINE% - %STARTLINE%"
+SET OUTFILE=%temp%\ideaGroovyConsoleScript.groovy
+cygpath -w C:\cygwin64\home\nealm\.sdkman\candidates\groovyserv\current\bin\groovyclient.exe > %OUTFILE%
+SET /P GROOVYCLIENT= <%OUTFILE%
+tail -n+%STARTLINE% %FILENAME% | tail -c+%STARTCHAR% | head -n %DELTA% > %OUTFILE%
+tail -n+%ENDLINE% %FILENAME% | head -c %ENDCHAR% >> %OUTFILE%
+%GROOVYCLIENT% %OUTFILE%
+#+END_SRC
+
+Be sure to chmod +x it.
+
+*** The external tool
+ - Name :: GroovyClient
+ - Description :: Run Groovy Faster
+ - Program :: C:\cygwin64\bin\ideaGroovyClientInvokerr.bat
+ - Parameters :: $SelectionStartLine$ $SelectionStartColumn$ $SelectionEndLine$ $SelectionEndColumn$ $FilePath$
+ - Working directory :: $ProjectFileDir$
+** sdkman improvements
+*** sdkman-init.sh
+**** Set ~cygwin=true~
+**** Use shell expansion more and ~find~ less
+
+# Source sdkman module scripts.
+for f in "${SDKMAN_DIR}"/src/sdkman-*.sh\
+         "${SDKMAN_DIR}"/src/sdkman-*.sh\
+	 "${SDKMAN_DIR}"/etc/config; do
+    source "$f"
+done
+
+**** Replace all instance of $(cat filename) with $(< filename)
+*** sdkman-path-helpers.sh
+**** __sdkman_set_candidate_home
+     export "${candidate^^}_HOME"="${SDKMAN_CANDIDATES_DIR}/${candidate}/${version}"
+**** __sdkman_export_candidate_home
+     export "${candidate_name^^}_HOME"="$candidate_dir"
+**** __sdkman_prepend_candidate_to_path
+     [ "$PATH" \!= "${PATH/$candidate_dir}" ] || PATH="${candidate_bin_dir}:${PATH}"
+
+** Get machine info
+#+BEGIN_SRC bash
+( echo -e "Machine\tCPU\tMem\tDisk";
+for machine in fedgebrk01; do
+  ssh $machine bash <<'EOF'
+    echo -ne "$(hostname)\t$(nproc)\t"
+    free -gt|awk 'END{printf $2"G\t"}'
+    df -h --total|awk 'END{print $2}'
+EOF
+done; ) | column -t
+#+END_SRC
+** Healthchecks
+#+BEGIN_SRC elisp
+  (defun ping (pod port)
+    ""
+    (let* ((ox (if (equal pod "n") "01" "03"))
+           (response (request (concat "https://" pod "dapi" ox ".staging.dmz:" port "/ping") :sync t :parser 'buffer-string))
+           (data (request-response-data response))
+           (pong (substring (or data "nil!") 1 5)))
+      pong))
+#+END_SRC
+
+| port | g      | e      | n      | h      | f      |
+|------+--------+--------+--------+--------+--------|
+| 8080 | #ERROR | #ERROR | #ERROR | #ERROR | #ERROR |
+| 8082 | #ERROR | #ERROR | #ERROR | #ERROR | #ERROR |
+| 8083 | #ERROR | #ERROR | #ERROR | #ERROR | #ERROR |
+| 8084 | #ERROR | #ERROR | #ERROR | #ERROR | #ERROR |
+#+TBLFM: @2$2..@5$6='(ping @1 $1)
+** pipeline debugging
+#+BEGIN_SRC sh
+( terminator -x bash -i -c "ssh bkafka01.dev /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic b_01_RawEvents" ) &
+( terminator -x bash -i -c "ssh qakafka01.dev /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic b_01_RawEvents" ) &
+( terminator -x bash -i -c "ssh qakafka01.dev /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic b_01_AugmentedEvents" ) &
+#+END_SRC
+
+#+RESULTS:
+
+* notes - Interprose
+** ACE setup
+*** Eclipse   
+[[http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/neon/3/eclipse-jee-neon-3-win32-x86_64.zip][Neon Release]]
+[[http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html][Extra Java Crypto Libs]]
+Add these options to the end of your shortcut target for eclipse ~launcher.XXMaxPermSize256m -vmargs -Xms512m -Xmx8192m -Dhttps.protocols=TLSv1~
+
+*** Tomcat
+- unzip tomcat into C:\var\tomcat
+- copy postgresql-*.jar to C:\var\tomcat\lib
+- copy jcs-*.jar to C:\var\tomcat\lib
+From Eclipse: File -> new -> other.  Server -> tomcat server
+Set timeouts to 999
+In the modules tab, configure the Web Modules to look like:
+In tomcat's "launch configuration" add in the args: ~-Djava.net.preferIPv4Stack=true~
+
+| Path      | Document Base                  | Module | Auto Reload |
+| /         | webar                          | webar  | Enabled     |
+| /WebAR_RE | C:\path\to\src\webar_re\webapp |        | Enabled     |
+|           |                                |        |             |
+** ACE training
+*** background is settable
+*** Setting up a user
+- Setup -> Users -> Profiles
+- Easiest to start from a sample and then clone
+- User Profile Type is User, Admin, or Client Access.  We charge per admin after a set amount
+- Username is recomended to be first part of email address
+- min settlement amount and percentage are mutex
+- max number of days and # of payments are mutex
+- primary agent day limit is the number of days before the primary agent is cleared from an account
+ - What does blank, 0 or -1 mean in this field? :OpenQuestion:
+- Current monthy base collected is readonly and accumlates until manuall reset (or reset by sched job)
+- Apply keeps you in screen as opposed to Save which takes you back a screen
+** Run configurations
+VM arguments
+-Dlog4j.configuration=file:///Src/ace-automation/build/install/ace-automation/conf/log4j.xml
+Working Directory
+C:\Src\ace-automation\build\install\ace-automation
+** Restore a postgresql backup
+/cygdrive/c/Program\ Files/PostgreSQL/10/bin/pg_restore.exe -U webar_admin -h localhost -d webar_mcpaws -Fc mcpaws-2018010
+8.backup
+** To export billing invoice PDFs
+#+BEGIN_SRC bash
+for c in $(psql -t -h localhost -U webar_admin -d webar_mcpaws -c "SELECT DISTINCT customer_id FROM billing_invoice")
+do
+    echo $c
+    psql -t -h localhost -U webar_admin -d webar_mcpaws -c "\COPY (SELECT detail_pdf FROM billing_invoice WHERE customer_id='$c') TO '$c-detail.pdf' (FORMAT binary);"
+done
+#+END_SRC
+** Delete nodes from xml
+#+BEGIN_SRC bash
+xml ed \
+  -d "//*[@className='QueryAccountManagerGetByAccountManagerID']" \
+  -d "//*[@className='QueryAccountManagerGetByCustomerID']" \
+  -d "//*[@className='QueryAccountManagerGetCurrentAccountManagerID']" \
+  Customer.appBean.xml | unix2dos | sponge Customer.appBean.xml
+#+END_SRC
+** Add newlines to xml
+#+BEGIN_SRC bash
+for tag in bean select insert update delete; do find . -print0 | xargs -0 sed -i '/\(<\/select>\)/a\\
+'; done;
+#+END_SRC
+** Format appBean.xml files
+#+BEGIN_SRC bash
+for f in *; do echo "$f"; xml fo "$f" | unix2dos | sed -e '/\(<\/bean>\)/a\\
+' -e '/\(<\/select>\)/a\\
+' -e '/\(<\/insert>\)/a\\
+' -e '/\(<\/update>\)/a\\
+' -e '/\(<\/delete>\)/a\\
+' | sponge "$f"; done
+#+END_SRC
+** When postgres fails to start
+#+BEGIN_SRC bash
+/cygdrive/c/Program\ Files/PostgreSQL/10/bin/postgres.exe --single -D C:/Program\ Files/PostgreSQL/10/data -d 1
+backend> REINDEX SYSTEM webar_marty
+/cygdrive/c/Program\ Files/PostgreSQL/10/bin/postgres.exe -D C:/Program\ Files/PostgreSQL/10/data -d 1
+#+END_SRC
+** Logi
+*** Troubleshooting
+Important files:
+file:c:/Src/webar_re/webapp/_Definitions/_Settings.lgx
+context.xml
+Tomcat server modules
+if missing tables: run the "Refresh Report Views" job
+
+*** CCP report project
+The old logi xml format for goCollection bookmarks have ~DataLayer~
+elements that have ~Source~ attributes that combine the schema and table
+name. ie ~<DataLayer ... Source="ccp_re.demographic_phone" ...>~
+
+The new format demands the source to be split up and have a seperate
+~Schema~ attribute so that it looks like:
+~<DataLayer ... Schema="ccp_re" Source="demographic_phone" ...>~
+
+Also spaces are escaped for certain attributes in the xml with \under{}x0020\under{}
+
+To start from the top, unzip the file overwriting everything:
+#+BEGIN_SRC bash
+  cd /cygdrive/c/var/portal/documents/logi/goBookmarks/CCP/
+  rm *.xml
+  unzip -qo Analytics-20180730030000.zip
+#[[shell:cd%20/cygdrive/c/var/portal/documents/logi/goBookmarks/CCP/;echo%20goCollection*.xml|wc%20-w][Count of reports]]
+  echo goCollection*.xml|wc -w|xargs printf "%s files extracted"
+#+END_SRC
+
+#+RESULTS:
+: 152 files extracted
+
+This formats all the xml files:
+#+BEGIN_SRC bash :results output raw :async
+  cd /cygdrive/c/var/portal/documents/logi/goBookmarks/CCP/
+  for f in *.xml
+  do 
+    xmlstarlet format "$f" | sponge "$f"
+  done
+#+END_SRC
+
+#+RESULTS:
+
+This changes all the xml files in-place
+#+BEGIN_SRC bash :results silent
+  cd /cygdrive/c/var/portal/documents/logi/goBookmarks/CCP/
+  sed -i 's/\(<DataLayer[^>]*\) Source="\([^"]*\)\.\([^"]*\)"/\1 Schema="\2" Source="\3"/g' *.xml
+  sed -i ":a s/\(\(DefaultValue\|ID\|rdAgAggrColumn\|rdAgColumnID\|rdAgGroupColumn\|rdAgOrderColumn\|rdAgRemovingColumn\)=.[a-zA-Z0-9_]*\) /\1_x0020_/g;ta" *.xml
+  # Same as above for DataColumn|ColumnName, but don't do it for SqlColumn tags
+  sed -i ':a /<SqlColumn /!s/\(\(DataColumn\)=.[a-zA-Z0-9_]*\) /\1_x0020_/g;ta' *.xml
+  sed -i ':a /<StaticDataRow /!s/\(\(ColumnName\)=.[a-zA-Z0-9_]*\) /\1_x0020_/g;ta' *.xml
+  sed -i '/<StaticDataRow /s/ DataColumn="[^"]*"\(.*\)DataColumnCaption="\[\([^]]*\)\]"/ DataColumn="\2"\1DataColumnCaption="\[\2\]"/g' *.xml #"
+  sed -i 's/ Schema="ccp"/ Schema="ccp_re"/g' *.xml
+#+END_SRC
+
+
+#+RESULTS:
+:RESULTS:
+file:C:\var\portal\documents\logi\goBookmarks\CCP\105419goCollection.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\105419goCollection_6fc35548-9c38-4380-97bc-94431eb8e21b.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\105419goCollection_9454759c-1eaa-430f-a4e8-c2f9e980aee0.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\105419goCollection_a09c2af9-1648-4cd4-be21-f6fef1fad7df.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\105419goCollection_a5294f6d-bf94-4817-9f15-8148454de80b.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\105419goCollection_e44bb91a-3fdd-4c3c-9b62-f4127b49b099.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\105419goCollection_e787598f-1f10-4993-9f61-f59cb576064e.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\105419goCollection_eef3fb47-42dd-4b7f-875b-3339b4ba9301.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_09cd4ced-bb9b-4577-aa6b-fe43b87dd1b7.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_185a9e74-7545-407c-9d18-dbf819f57b46.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_1f6860d2-00f1-4181-b1e9-764292234244.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_2187cd54-f136-44e7-91bb-f8fc03210541.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_23e44f64-dced-4bd8-a6f5-9bb0e8611202.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_29aaa42a-40d6-4570-92a9-90514be0c21e.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_3514aada-6d49-4b1f-a672-1c9a7a9b535a.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_3b700e02-ee2f-4b59-b61a-abe68bcc0021.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_4766803e-e63e-45a3-94d6-20d727d02590.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_47fcb012-9f6c-42a1-bb6b-0b6ed04cc302.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_4b9dc940-07e1-4da9-812b-2f43b82b58fc.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_56b4d45c-7536-4bc3-bdde-b62e6f658175.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_5da77f41-4a37-4344-8bc0-85aad943bbc0.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_5f74f025-d801-48e2-814b-eed026810cae.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_61ae836a-3553-43ae-8189-a49b17b1aca4.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_620f4dc7-dd2e-4f7c-872b-d569c6c00eae.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_62806583-4c23-47ad-bd0f-67c4ef52bea5.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_695ad503-8af4-40a0-abee-7e3977b9c5b3.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_6b002d57-7833-4367-afbf-6fd264748b3d.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_718af0b6-9f5a-4848-b9cf-1ea6e7054461.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_7f5f8786-6b15-46b6-a8e3-b355f9d7fc75.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_83c053ca-6d8c-42ee-92a0-86c023287669.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_840a385b-c5a9-4a16-9f2d-d1495b9d6ed6.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_8a78107f-d5fb-4b62-9fa9-cbe7215695fc.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_935b39ab-90f5-4c55-95bf-6685870dd2a5.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_96d8d644-de7f-4c90-8083-3641b223472b.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_adddae3c-32b2-4e49-b83d-5b4013ea2412.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_ae29f3b4-63cd-40ff-b713-84f21d4b2861.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_b3482fbf-4e55-44ed-8334-ab4d0867eb2a.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_b47df239-7fa4-477a-94dd-67fb777c040a.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_bb8f446e-39d9-4128-a557-8d584118331f.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_c7024c40-eb77-488a-8bde-e4abcec3ca9b.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_cb9abed3-94e1-40d5-acca-7bc4bc4a99db.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_d1aa3936-2d90-49cd-9d8a-e2580a3f4b93.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_d1d7abee-2c19-4761-92f1-d5d893c19382.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_d3c5a05d-b953-4850-81ea-314d1b5dd7d7.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_dab7457c-79cd-42ae-baf9-e106da0233b8.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_e5cc4f15-2a37-494e-b45d-5f4abc65a2d9.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_ec7c1358-9a54-4d78-b1b3-9803b8fa40fc.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_ee78564d-f9af-4339-a6b9-cdf3536912bf.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_f860480f-81ab-40b7-b84e-bda69a18644e.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goCollection_fad3200a-5ba6-4e53-9f04-46d4ce589d41.xml
+file:C:\var\portal\documents\logi\goBookmarks\CCP\goGallery.xml
+:END:
+
+List out the files
+#+BEGIN_SRC bash :results raw drawer
+  /usr/bin/find /cygdrive/c/var/portal/documents/logi/goBookmarks/CCP/*.xml -print0|xargs -0 cygpath -w|sed 's/^/file:/g'
+#+END_SRC
+
+
+This brings in our backed up file
+#+BEGIN_SRC bash :results silent
+  cd /cygdrive/c/var/portal/documents/logi/goBookmarks/
+  cp "goCollection_57c29c72-bb8d-4605-9cbf-d61263c44b3e - Copy.xml" CCP/goCollection_57c29c72-bb8d-4605-9cbf-d61263c44b3e.xml
+  sed -i '628a\
+  <Bookmark Report="InfoGo.goAnalysisGrid" Name="" CustomColumn1="" CustomColumn2="" BookmarkID="57c29c72-bb8d-4605-9cbf-d61263c44b3e" ExtraFile="goCollection_57c29c72-bb8d-4605-9cbf-d61263c44b3e.xml" Description="CCP_GENERATED" SaveTime="2018-06-22T14:28:41-07:00">\
+    <RequestParameters rdAgLoadSaved="goCollection_57c29c72-bb8d-4605-9cbf-d61263c44b3e.xml" />\
+    <SessionParameters />\
+  </Bookmark>' CCP/goCollection.xml
+#+END_SRC
+
+An example file to look at:
+Client Inventory Summary
+column order: 
+Assigned Date, Current Balance, Calls, Debt ID, Last Contact Date, Mobile Phone Numbers, Client Name
+
+file:C:/var/portal/documents/logi/goBookmarks/CCP/goCollection_f997e11c-9ff0-42a2-8135-e8226893615a.xml
+** refresh views optimizations (QueryReportDesignerClientSummaryView)
+*** original query
+WITH trans AS (
+     SELECT *
+     FROM debt_trans
+     WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='OWING') AS owing_balance)
+
+SELECT MONTH::date,
+       'CCP' AS customer_id,
+       client.client_id,
+       client.customer_client_code,
+       client.company_name,
+
+  (SELECT COUNT (*)
+   FROM debt
+   WHERE date_trunc('month',debt.assigned_date) = MONTH
+     AND debt.client_id = client.client_id) AS placement_count,
+
+  (SELECT sum(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='OWING') AS owing_balance,
+
+  (SELECT avg(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='OWING') AS avg_owing_balance,
+
+  (SELECT sum(assigned_balance)/100.0
+   FROM debt
+   WHERE date_trunc('month', debt.assigned_date) = MONTH
+     AND debt.client_id=client.client_id) AS assigned_balance,
+
+  (SELECT avg(assigned_balance)/100.0
+   FROM debt
+   WHERE date_trunc('month', debt.assigned_date) = MONTH
+     AND debt.client_id=client.client_id) AS avg_assigned_balance,
+
+  (SELECT sum(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='RECEIVED') AS received_balance,
+
+  (SELECT avg(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='RECEIVED') AS avg_received_balance,
+
+  (SELECT sum(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.type_name='CANCELLED') AS cancelled_balance,
+
+  (SELECT sum(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.type_name='SETTLED') AS settled_balance,
+
+  (SELECT sum(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='OWING'
+     AND debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_owing_balance,
+
+  (SELECT avg(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='OWING'
+     AND debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_avg_owing_balance,
+
+  (SELECT sum(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='RECEIVED'
+     AND debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_received_balance,
+
+  (SELECT avg(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='RECEIVED'
+     AND debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_avg_received_balance,
+
+  (SELECT sum(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.type_name='CANCELLED'
+     AND debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_cancelled_balance,
+
+  (SELECT sum(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.type_name='SETTLED'
+     AND debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_settled_balance,
+       NULL AS current_balance,
+       NULL AS avg_current_balance,
+       NULL AS cv_current_balance,
+       NULL AS cv_avg_current_balance,
+
+  (SELECT count(*)
+   FROM payment_trans,
+        payment_plan,
+        debt
+   WHERE date_trunc('month',payment_trans.trans_date) = MONTH
+     AND payment_trans.payment_plan_id = payment_plan.payment_plan_id
+     AND payment_plan.debt_id = debt.debt_id
+     AND debt.client_id = client.client_id) AS payments,
+
+  (SELECT count(*)
+   FROM letter,
+        debt
+   WHERE date_trunc('month', letter.send_date) = MONTH
+     AND coalesce(letter.restricted, FALSE) IS FALSE
+     AND letter.send_date <= CURRENT_DATE
+     AND letter.debt_id = debt.debt_id
+     AND debt.client_id = client.client_id) AS letters_sent,
+
+  (SELECT count(*)
+   FROM debt_phone_log
+   WHERE call_month = MONTH::date
+     AND debt_phone_log.client_id = client.client_id) AS calls,
+
+  (SELECT count(*)
+   FROM debt_phone_log
+   WHERE call_month = MONTH
+     AND debt_phone_log.client_id = client.client_id
+     AND debt_phone_log.source_type IN ('OUTBOUND',
+                                        'DIALER',
+                                        'DIALER_OUTBOUND',
+                                        'DIALER_MANUAL_DIAL')) AS calls_outgoing,
+
+  (SELECT count(*)
+   FROM debt_phone_log
+   WHERE call_month = MONTH
+     AND debt_phone_log.client_id = client.client_id
+     AND debt_phone_log.source_type IN ('INBOUND',
+                                        'DIALER_INBOUND')) AS calls_incoming_calls,
+
+  (SELECT count(*)
+   FROM debt_phone_log
+   WHERE call_month = MONTH
+     AND debt_phone_log.client_id = client.client_id
+     AND debt_phone_log.phone_result_contact_type = 'LEFT_MESSAGE') AS calls_messages_left,
+
+  (SELECT count(*)
+   FROM debt_phone_log
+   WHERE call_month = MONTH
+     AND debt_phone_log.client_id = client.client_id
+     AND debt_phone_log.phone_result_contact_type IS NOT NULL) AS calls_contacts,
+
+  (SELECT count(*)
+   FROM debt_phone_log
+   WHERE call_month = MONTH
+     AND debt_phone_log.client_id = client.client_id
+     AND debt_phone_log.phone_result_no_contact_type IS NOT NULL) AS calls_no_contacts,
+
+  (SELECT count(*)
+   FROM debt_phone_log
+   WHERE call_month = MONTH
+     AND debt_phone_log.client_id = client.client_id
+     AND debt_phone_log.phone_result_contact_type = 'HUNG_UP') AS hangups,
+
+  (SELECT count(*)
+   FROM debt_phone_log
+   WHERE call_month = MONTH
+     AND debt_phone_log.client_id = client.client_id
+     AND debt_phone_log.phone_result_contact_type = 'ANSWERED'
+     AND debt_phone_log.phone_contact_type IN ('PRIMARY',
+                                               'RIGHT_PARTY')) AS rpc,
+
+  (SELECT COUNT (*)
+   FROM debt
+   WHERE date_trunc('month',debt.paid_date) = MONTH
+     AND debt.client_id = client.client_id
+     AND debt.settled IS TRUE) AS sif,
+
+  (SELECT COUNT (*)
+   FROM debt
+   WHERE date_trunc('month',debt.paid_date) = MONTH
+     AND debt.client_id = client.client_id) AS pif,
+
+  (SELECT COUNT (*)
+   FROM debt
+   WHERE date_trunc('month',debt.closed_date) = MONTH
+     AND debt.client_id = client.client_id) AS closed,
+       NULL AS OPEN,
+
+  (SELECT COUNT (*)
+   FROM debt_cancel,
+        debt
+   WHERE date_trunc('month', debt_cancel.cancel_date) = MONTH
+     AND debt.client_id = client.client_id
+     AND debt.debt_id=debt_cancel.debt_id) AS cancelled,
+
+  (SELECT COUNT (*)
+   FROM deceased,
+        debt
+   WHERE date_trunc('month', deceased.create_date) = MONTH
+     AND debt.client_id = client.client_id
+     AND debt.debt_id=deceased.debt_id) AS deceased,
+
+  (SELECT COUNT (*)
+   FROM bankruptcy,
+        debt
+   WHERE date_trunc('month', bankruptcy.create_date) = MONTH
+     AND debt.client_id = client.client_id
+     AND debt.bankruptcy_id=bankruptcy.id) AS bankruptcy,
+
+  (SELECT COUNT (*)
+   FROM debt_dispute,
+        debt
+   WHERE date_trunc('month', debt_dispute.create_date) = MONTH
+     AND debt.client_id = client.client_id
+     AND debt.debt_id=debt_dispute.debt_id) AS disputes,
+
+  (SELECT count(*)
+   FROM worklist_log,
+        debt
+   WHERE debt.debt_id = worklist_log.debt_id
+     AND date_trunc('month', worklist_log.start_time) = MONTH
+     AND debt.client_id = client.client_id) AS worked,
+
+  (SELECT avg(worklist_log.end_time - worklist_log.start_time)
+   FROM worklist_log,
+        debt
+   WHERE debt.debt_id = worklist_log.debt_id
+     AND date_trunc('month', worklist_log.start_time) = MONTH
+     AND debt.client_id = client.client_id) AS avg_time_worked,
+
+  (SELECT sum(worklist_log.end_time - worklist_log.start_time)
+   FROM worklist_log,
+        debt
+   WHERE debt.debt_id = worklist_log.debt_id
+     AND date_trunc('month', worklist_log.start_time) = MONTH
+     AND debt.client_id = client.client_id) AS time_worked,
+
+  (SELECT count(DISTINCT payment_plan.payment_plan_id)
+   FROM payment_plan_schedule,
+        payment_plan_debt,
+        payment_dest,
+        payment_plan,
+        debt
+   WHERE date_trunc('month',payment_plan.create_date) = MONTH
+     AND payment_plan_debt.payment_plan_id = payment_plan_schedule.payment_plan_id
+     AND payment_plan_debt.debt_id = debt.debt_id
+     AND debt.client_id = client.client_id
+     AND payment_plan.payment_plan_id = payment_plan_schedule.payment_plan_id
+     AND payment_plan.payment_dest_id = payment_dest.payment_dest_id
+     AND payment_dest.payment_provider = 'PROMISE'
+     AND payment_plan.module !='WEBAR_JOB'
+     AND payment_plan_schedule.promise_status != 'DEFERRED') AS promises,
+
+  (SELECT count(DISTINCT payment_plan.payment_plan_id)
+   FROM payment_plan_schedule,
+        payment_plan_debt,
+        payment_dest,
+        payment_plan,
+        debt
+   WHERE date_trunc('month',payment_plan.create_date) = MONTH
+     AND payment_plan_debt.payment_plan_id = payment_plan_schedule.payment_plan_id
+     AND payment_plan_debt.debt_id = debt.debt_id
+     AND debt.client_id = client.client_id
+     AND payment_plan.payment_plan_id = payment_plan_schedule.payment_plan_id
+     AND payment_plan.payment_dest_id = payment_dest.payment_dest_id
+     AND payment_dest.payment_provider != 'PROMISE'
+     AND date_trunc('day', payment_plan.create_date) != coalesce(payment_plan.deactivation_date,'1/1/1965')
+     AND payment_plan.module !='WEBAR_JOB'
+     AND date_trunc('day', payment_plan.create_date) != payment_plan_schedule.payment_date
+     AND payment_plan_schedule.promise_status != 'DEFERRED') AS payment_plans,
+
+  (SELECT sum(commission_amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='RECEIVED') AS commissions,
+
+  (SELECT avg(commission_amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='RECEIVED') AS avg_commissions_rate,
+
+  (SELECT count(*)
+   FROM debt
+   WHERE debt.client_id = client.client_id) AS unique_accounts,
+
+  (SELECT count(*)
+   FROM debt
+   WHERE debt.client_id = client.client_id
+     AND (debt.closed_date IS NULL
+          OR debt.closed_date > MONTH)
+     AND (debt.paid_date IS NULL
+          OR debt.paid_date > MONTH)) AS active_accounts,
+
+  (SELECT count(*)
+   FROM debt
+   WHERE debt.client_id = client.client_id
+     AND EXISTS
+       (SELECT demographic_phone.phone_number
+        FROM demographic_phone
+        WHERE demographic_phone.debt_id = debt.debt_id
+          AND demographic_phone.active IS TRUE)) AS accounts_with_active_phone,
+
+  (SELECT count(*)
+   FROM demographic_phone,
+        debt
+   WHERE debt.client_id = client.client_id
+     AND demographic_phone.debt_id = debt.debt_id) AS total_phone_numbers,
+
+  (SELECT count(DISTINCT debt.debt_id)
+   FROM debt
+   WHERE EXISTS
+       (SELECT payment_trans.payment_trans_id
+        FROM payment_trans,
+             payment_plan
+        WHERE date_trunc('month',payment_trans.trans_date) = MONTH
+          AND payment_trans.payment_plan_id = payment_plan.payment_plan_id
+          AND payment_plan.debt_id = debt.debt_id
+          AND debt.client_id = client.client_id) ) AS accounts_with_payment,
+
+  (SELECT coalesce(sum(amount)/100.0,0.00)
+   FROM debt_trans
+   WHERE debt_trans.client_id = client.client_id
+     AND debt_trans.bucket = 'FEE'
+     AND debt_trans.operator = 'RECEIVED'
+     AND date_trunc('month', debt_trans.trans_date) = MONTH) AS total_fees_collected
+FROM generate_series(date_trunc('month',e'2018-05-01'::date), date_trunc('month',e'2018-07-26'::date), '1 month') AS MONTH,
+     client
+WHERE client.customer_id = 'CCP'
+*** paired down original query
+SELECT MONTH::date,
+       'CCP' AS customer_id,
+       client.client_id,
+       client.customer_client_code,
+       client.company_name,
+       (SELECT COUNT (*)
+   FROM debt
+   WHERE date_trunc('month',debt.assigned_date) = MONTH
+     AND debt.client_id = client.client_id) AS placement_count,
+
+  (SELECT sum(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='OWING') AS owing_balance,
+
+  (SELECT avg(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='OWING') AS avg_owing_balance,
+
+  (SELECT sum(assigned_balance)/100.0
+   FROM debt
+   WHERE date_trunc('month', debt.assigned_date) = MONTH
+     AND debt.client_id=client.client_id) AS assigned_balance,
+
+  (SELECT avg(assigned_balance)/100.0
+   FROM debt
+   WHERE date_trunc('month', debt.assigned_date) = MONTH
+     AND debt.client_id=client.client_id) AS avg_assigned_balance,
+
+  (SELECT sum(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='RECEIVED') AS received_balance,
+
+  (SELECT avg(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='RECEIVED') AS avg_received_balance,
+
+  (SELECT sum(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.type_name='CANCELLED') AS cancelled_balance,
+
+  (SELECT sum(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.type_name='SETTLED') AS settled_balance,
+
+  (SELECT sum(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='OWING'
+     AND debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_owing_balance,
+
+  (SELECT avg(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='OWING'
+     AND debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_avg_owing_balance,
+
+  (SELECT sum(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='RECEIVED'
+     AND debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_received_balance,
+
+  (SELECT avg(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.operator='RECEIVED'
+     AND debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_avg_received_balance,
+
+  (SELECT sum(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.type_name='CANCELLED'
+     AND debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_cancelled_balance,
+
+  (SELECT sum(amount)/100.0
+   FROM debt_trans
+   WHERE date_trunc('month', debt_trans.trans_date) = MONTH
+     AND debt_trans.client_id=client.client_id
+     AND debt_trans.type_name='SETTLED'
+     AND debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_settled_balance
+FROM generate_series(date_trunc('month',e'2018-05-01'::date), date_trunc('month',e'2018-07-26'::date), '1 month') AS MONTH,
+     client
+WHERE client.customer_id = 'CCP'
+*** optimized query
+WITH cte_debt_trans AS (
+SELECT date_trunc('month', debt_trans.trans_date) AS trans_month,
+       debt_trans.client_id,
+       debt_trans.bucket,
+       debt_trans.operator,
+       debt_trans.type_name,
+       sum(amount)/100.0 AS sum_amount,
+       count(amount) AS cnt_amount
+FROM debt_trans
+GROUP BY date_trunc('month', debt_trans.trans_date),
+         debt_trans.client_id,
+         debt_trans.bucket,
+         debt_trans.operator,
+         debt_trans.type_name         
+), cte_debt AS (
+SELECT date_trunc('month', debt.assigned_date) AS assigned_month,
+       debt.client_id,
+       COUNT(*) AS cnt,
+       sum(assigned_balance)/100.0 AS sum_assigned_balance,
+       count(assigned_balance) AS cnt_assigned_balance
+FROM debt
+GROUP BY date_trunc('month', debt.assigned_date),
+         debt.client_id
+)
+
+SELECT MONTH::date,
+       'CCP' AS customer_id,
+       client.client_id,
+       client.customer_client_code,
+       client.company_name,
+
+  (SELECT COALESCE(cnt,0)
+       FROM cte_debt 
+       WHERE cte_debt.assigned_month = MONTH
+       AND cte_debt.client_id = client.client_id) AS placement_count,
+
+  (SELECT sum(sum_amount)
+   FROM cte_debt_trans
+   WHERE cte_debt_trans.trans_month = MONTH
+     AND cte_debt_trans.client_id=client.client_id
+     AND cte_debt_trans.operator='OWING') AS owing_balance,
+
+  (SELECT sum(sum_amount)/sum(cnt_amount)
+   FROM cte_debt_trans
+   WHERE cte_debt_trans.trans_month = MONTH
+     AND cte_debt_trans.client_id=client.client_id
+     AND cte_debt_trans.operator='OWING') AS avg_owing_balance,
+
+  (SELECT sum(sum_assigned_balance)
+   FROM cte_debt
+   WHERE cte_debt.assigned_month = MONTH
+     AND cte_debt.client_id=client.client_id) AS assigned_balance,
+
+  (SELECT sum(sum_assigned_balance)/sum(cnt_assigned_balance)
+   FROM cte_debt
+   WHERE cte_debt.assigned_month = MONTH
+     AND cte_debt.client_id=client.client_id) AS avg_assigned_balance,
+
+  (SELECT sum(sum_amount)
+   FROM cte_debt_trans
+   WHERE cte_debt_trans.trans_month = MONTH
+     AND cte_debt_trans.client_id=client.client_id
+     AND cte_debt_trans.operator='RECEIVED') AS received_balance,
+
+  (SELECT sum(sum_amount)/sum(cnt_amount)
+   FROM cte_debt_trans
+   WHERE cte_debt_trans.trans_month = MONTH
+     AND cte_debt_trans.client_id=client.client_id
+     AND cte_debt_trans.operator='RECEIVED') AS avg_received_balance,
+
+  (SELECT sum(sum_amount)
+   FROM cte_debt_trans
+   WHERE cte_debt_trans.trans_month = MONTH
+     AND cte_debt_trans.client_id=client.client_id
+     AND cte_debt_trans.type_name='CANCELLED') AS cancelled_balance,
+
+  (SELECT sum(sum_amount)
+   FROM cte_debt_trans
+   WHERE cte_debt_trans.trans_month = MONTH
+     AND cte_debt_trans.client_id=client.client_id
+     AND cte_debt_trans.type_name='SETTLED') AS settled_balance,
+
+  (SELECT sum(sum_amount)
+   FROM cte_debt_trans
+   WHERE cte_debt_trans.trans_month = MONTH
+     AND cte_debt_trans.client_id=client.client_id
+     AND cte_debt_trans.operator='OWING'
+     AND cte_debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_owing_balance,
+
+  (SELECT sum(sum_amount)/sum(cnt_amount)
+   FROM cte_debt_trans
+   WHERE cte_debt_trans.trans_month = MONTH
+     AND cte_debt_trans.client_id=client.client_id
+     AND cte_debt_trans.operator='OWING'
+     AND cte_debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_avg_owing_balance,
+
+  (SELECT sum(sum_amount)
+   FROM cte_debt_trans
+   WHERE cte_debt_trans.trans_month = MONTH
+     AND cte_debt_trans.client_id=client.client_id
+     AND cte_debt_trans.operator='RECEIVED'
+     AND cte_debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_received_balance,
+
+  (SELECT sum(sum_amount)/sum(cnt_amount)
+   FROM cte_debt_trans
+   WHERE cte_debt_trans.trans_month = MONTH
+     AND cte_debt_trans.client_id=client.client_id
+     AND cte_debt_trans.operator='RECEIVED'
+     AND cte_debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_avg_received_balance,
+
+  (SELECT sum(sum_amount)
+   FROM cte_debt_trans
+   WHERE cte_debt_trans.trans_month = MONTH
+     AND cte_debt_trans.client_id=client.client_id
+     AND cte_debt_trans.type_name='CANCELLED'
+     AND cte_debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_cancelled_balance,
+
+  (SELECT sum(sum_amount)
+   FROM cte_debt_trans
+   WHERE cte_debt_trans.trans_month = MONTH
+     AND cte_debt_trans.client_id=client.client_id
+     AND cte_debt_trans.type_name='SETTLED'
+     AND cte_debt_trans.bucket= any(string_to_array(client_visible_buckets,','))) AS cv_settled_balance
+FROM generate_series(date_trunc('month',e'2018-05-01'::date), date_trunc('month',e'2018-07-26'::date), '1 month') AS MONTH,
+     client
+WHERE client.customer_id = 'CCP'
+** Polish
+ - [ ] gradle
+ - [ ] Java 10
+ - [ ] monitoring and metrics
+ - [ ] pivotjs
+ - [ ] jira:DEV-4333 Add month control to Sql reporting
+
+** Liquibase: Waiting for changelog lock
+This error occurs if liquibase does not exit cleanly, the lock row may
+be left as locked. This might due to stopping or killing the tomcat
+before liquibase releases the lock.
+
+Execute the below SQL to clear the lock
+#+BEGIN_SRC sql :engine postgresql :dbhost localhost :database webar_marty
+UPDATE DATABASECHANGELOGLOCK SET LOCKED = 'f';
+#+END_SRC
+
+#+RESULTS:
+| UPDATE 1 |
+|----------|
+
+** jira:BUG-637
+Note: When the destination spread mode is manual instead of immediate, things work better...
+
+*** Get payment trans query 
+#+BEGIN_SRC sql :engine postgresql :dbhost localhost :database webar_marty
+SELECT commission_amount, *
+FROM payment_trans pt
+INNER JOIN payment_plan pp ON pt.payment_plan_id = pp.payment_plan_id
+INNER JOIN payment_plan_schedule pps ON pt.payment_schedule_id = pps.payment_schedule_id
+WHERE trans_date < (CURRENT_DATE + 1)
+ORDER BY trans_date DESC
+LIMIT 10;
+#+END_SRC
+
+#+BEGIN_SRC plantuml :file foo.png
+hide footbox
+actor User
+User -> ActionTransactionPost: Enters payment amount
+ActionTransactionPost -> PaymentPlan: doRespreadTransaction()
+PaymentPlan -> PaymentPlanSchedule: respread()
+PaymentPlanSchedule -> TransactionSpreader: spread()
+TransactionSpreader -> TransactionSpreader: prespread()
+TransactionSpreader -> TransactionSpreader: spreadTransactionByDebt()
+TransactionSpreader -> CommissionRate: spreadTransaction()
+rnote over CommissionRate: calculateCommission()
+== ==
+ActionTransactionPost -> Spread: doGetSingleSpread()
+Spread -> Spread: applyFromPayment()
+== ==
+User -> User: Zeros out interest commission
+User -> ActionTransactionPost: Presses Spread
+ActionTransactionPost -> ActionTransactionPost: Removes existing spreads
+ActionTransactionPost -> ActionTransactionPost: Adds spread to current payment
+== ==
+User -> ActionTransactionPost: Presses Apply
+#+END_SRC
