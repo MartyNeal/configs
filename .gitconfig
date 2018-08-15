@@ -1,21 +1,22 @@
 [user]
 	name = Marty Neal
-	email = martin.neal@webtrends.com
+	email = martin.neal@interprose.com
 
 [core]
-	editor = emacs-nox
-	excludefile = c:/Users/nealm/.gitignore
+	editor = C:/cygwin/bin/emacsclientWindowsPath
+	excludefile = c:/Users/marty/.gitignore
 	filemode = false
-	pager = less -FXR
-	excludesfiles = /home/nealm/.gitignore
-	excludesfile = /home/nealm/Src/.gitignore
+    pager = less -FXR
+	excludesfiles = /home/marty/.gitignore
+	excludesfile = /home/marty/Src/.gitignore
+	eol = crlf
 
 [alias]
 	lg = !git lg1 -n10
 	lg1 = log -n20 --graph --format=format:\"%C(bold blue)%h%C(reset) %C(bold yellow)%d%C(reset) %C(bold white)%an%C(reset) %C(bold green)%ar%C(reset) %C(white)%s%C(reset)\"
 	lg2 = log -n20 --format=%format:\"%C(bold blue)%h%C(reset) %C(bold cyan)%aD%C(reset) %C(bold green)%ar%C(reset)%C(bold yellow)%d%C(reset)%n%C(bold white)%an - %s%C(reset)\" --name-only
 	lg3 = log -n20 --format=format:\"%C(bold blue)%h%C(reset) %C(bold cyan)%aD%C(reset) %C(bold green)%ar%C(reset) %C(bold white)%an%C(reset)%n%C(bold yellow)%s%C(reset)\" --patch --color --color-words --ignore-space-at-eol --no-prefix
-        a = add
+    a = add
 	au = add -u
 	ap = add -p
 	ai = add -i
@@ -26,23 +27,20 @@
 	co = checkout
 	conflicts = diff --name-only --diff-filter=U
 	cp = cherry-pick
+    ff = merge --ff-only
 	s = status -sb
-	d = diff
-	dc = diff --cached
+	d = diff --color
+	dc = diff --color --cached
 	st = stash
 	stp = stash pop
 	pr = pull-request
 	r = reset
 	rh = reset --hard
 	ru = remote update
-	serve = !tracert pdxnealm01 | awk '/'`hostname`'/{ print "Now execute git clone " $4; exit }' & git daemon --verbose --export-all --base-path=.git --reuseaddr --strict-paths .git/
-        pum = pull upstream master
+    pum = pull upstream master
 	pom = push origin master
 
-
 [push]
-	default = tracking
-	default = current
 	default = tracking
 
 [color]
@@ -57,10 +55,27 @@
 	old = red
 	new = green
 
-[github]
-	host = https://gh.webtrends.corp
-	api = https://gh.webtrends.corp/api/v3
-[hub]
-	host = gh.webtrends.corp
+[color "diff"]
+  old = red
+  new = green
+  
 [remote "origin"]
 	fetch = +refs/pull/*/head:refs/remotes/origin/pr/*
+    
+[merge]
+	conflictstyle = merge
+	tool = emerge
+    
+[diff]
+    tool = ediff
+    
+[difftool "ediff"]
+; No clue how to make this work Giving up :-(
+;    cmd = emacsclient --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
+;    cmd = echo `grep -o [a-zA-Z0-9_/] <<< "$LOCAL"`
+;    cmd = echo `grep -o [a-zA-Z0-9_/\\.]* <<< "$LOCAL"`
+;    cmd = echo `hexdump.exe -C <<< "$LOCAL"`
+;    cmd = emacsclient --eval \"(ediff-files \\\"`cygpath -u "$LOCAL"`\\\" \\\"$REMOTE\\\")\"
+;    cmd = emacsclient --eval \"(ediff-files \\\"`grep -o [a-zA-Z0-9_/\\.]* <<< "$LOCAL"`\\\" \\\"$REMOTE\\\")\"
+;    cmd = emacsclientw --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
+;    cmd = emacsclientw.exe --eval \"(ediff-files \\\"`cygpath -u "$LOCAL"`\\\" \\\"$REMOTE\\\")\"
